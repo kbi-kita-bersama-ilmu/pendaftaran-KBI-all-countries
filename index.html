@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pendaftaran KBI Indonesia</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;padding:20px 12px;
+  font-family:Arial,sans-serif;
+  background:#090909;color:white
+}
+.card{
+  max-width:460px;margin:auto;padding:24px;
+  background:#17121f;border:2px solid #8b20df;
+  border-top:6px solid #ed1635;border-radius:18px
+}
+.logo{text-align:center;font-size:52px;font-weight:900;
+  color:#ff1838;letter-spacing:5px;margin:0}
+h1{text-align:center;font-size:23px}
+.creator{text-align:center;color:#c99aff}
+.desc{text-align:center;color:#ddd;font-size:14px;line-height:1.6}
+label{display:block;margin:17px 0 7px;font-weight:bold;font-size:14px}
+input{
+  width:100%;padding:13px;border-radius:9px;
+  border:1px solid #69418b;background:#0b0b0e;
+  color:white;font-size:15px
+}
+small{display:block;color:#cdbbdc;margin-top:7px;line-height:1.5}
+button{
+  width:100%;padding:15px;margin-top:23px;
+  border:0;border-radius:10px;color:white;
+  background:linear-gradient(100deg,#e50925,#8b20df);
+  font-size:16px;font-weight:bold
+}
+#status{display:none;margin-top:16px;line-height:1.6}
+footer{text-align:center;color:#aaa;font-size:12px;margin-top:25px}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <p class="logo">KBI</p>
+  <h1>Pendaftaran KBI Indonesia</h1>
+  <p class="creator">KBI dibuat oleh Rustan</p>
+  <p class="desc">
+    Isi data dengan benar untuk mendaftar.<br>
+    Complete the form to register.
+  </p>
+
+  <form id="register">
+    <label for="name">Nama / Name</label>
+    <input id="name" required maxlength="100"
+      placeholder="Masukkan nama kamu">
+
+    <label for="age">Umur / Age</label>
+    <input id="age" type="number" min="12" max="120"
+      required placeholder="Minimal 12 tahun">
+
+    <label for="country">Negara / Country</label>
+    <input id="country" required maxlength="100"
+      placeholder="Contoh: Indonesia">
+
+    <label for="phone">Nomor telepon / Telephone Number</label>
+    <input id="phone" type="tel" required maxlength="25"
+      placeholder="Contoh: +62xxxxxxxxxx">
+
+    <label for="tiktok">Foto SS akun TikTok</label>
+    <input id="tiktok" type="file" accept="image/*" required>
+    <small>
+      Pilih screenshot profil TikTok. Setelah Gmail terbuka,
+      lampirkan foto ini secara manual sebelum mengirim email.
+    </small>
+
+    <button type="submit">DAFTAR KBI</button>
+  </form>
+
+  <p id="status" role="status"></p>
+
+  <footer>
+    KBI Indonesia © 2026<br>
+    Dibuat oleh Rustan
+  </footer>
+</div>
+
+<script>
+document.getElementById("register").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const age = Number(document.getElementById("age").value);
+  const country = document.getElementById("country").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const file = document.getElementById("tiktok").files[0];
+
+  if(age < 12 || age > 120){
+    alert("Umur pendaftar harus minimal 12 tahun.");
+    return;
+  }
+
+  if(!file || !file.type.startsWith("image/")){
+    alert("Silakan pilih gambar screenshot TikTok.");
+    return;
+  }
+
+  if(file.size > 10 * 1024 * 1024){
+    alert("Ukuran foto maksimal 10 MB.");
+    return;
+  }
+
+  const subject = "Pendaftaran KBI - " + name;
+  const body =
+`PENDAFTARAN KBI INDONESIA
+KBI dibuat oleh Rustan
+
+Nama / Name: ${name}
+Umur / Age: ${age}
+Negara / Country: ${country}
+Nomor telepon / Telephone Number: ${phone}
+
+Nama file screenshot TikTok: ${file.name}
+
+Screenshot akan saya lampirkan secara manual.
+
+Terima kasih.`;
+
+  const gmail = "https://mail.google.com/mail/?view=cm&fs=1"
+    + "&to=" + encodeURIComponent("kbikitabersamailmu@gmail.com")
+    + "&su=" + encodeURIComponent(subject)
+    + "&body=" + encodeURIComponent(body);
+
+  document.getElementById("status").style.display = "block";
+  document.getElementById("status").textContent =
+    "Gmail sedang dibuka. Lampirkan screenshot TikTok, lalu tekan Kirim.";
+
+  window.location.href = gmail;
+});
+</script>
+</body>
+</html>
